@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; // Ensure modal is above other content
+  z-index: 1000; 
 }
 
 .modal-content {
@@ -16,9 +16,9 @@
   padding: 20px;
   border-radius: 8px;
   width: 100%;
-  max-width: 500px; // Increased max-width for better layout
+  max-width: 500px;
   position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Added box shadow for better depth
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 
   h2 {
     margin: 0 0 20px;
@@ -28,7 +28,7 @@
   .modal-form {
     display: flex;
     flex-direction: column;
-    gap: 15px; // Added gap for better spacing
+    gap: 15px;
   }
 
   label {
