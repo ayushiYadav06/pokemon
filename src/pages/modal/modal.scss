@@ -1,4 +1,3 @@
-/* Modal.css */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -9,19 +8,71 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1000; // Ensure modal is above other content
+}
 
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
-    position: relative;
-    .modal-form {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-start;
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px; // Increased max-width for better layout
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Added box shadow for better depth
+
+  h2 {
+    margin: 0 0 20px;
+    font-size: 24px;
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; // Added gap for better spacing
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  input[type="text"],
+  textarea {
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .image-preview {
+    margin-top: 10px;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #210808;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #210808;
     }
   }
 
@@ -31,7 +82,13 @@
     right: 10px;
     background: transparent;
     border: none;
-    font-size: 18px;
+    font-size: 24px;
+    color: #333;
     cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color:#210808;
+    }
   }
 }
