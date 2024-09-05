@@ -1,0 +1,24 @@
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  margin: 3px 1rem;
+  .header-img {
+    img {
+      width: 50%;
+    }
+  }
+  .btn-create {
+    .create {
+      background: #210808;
+      border: none;
+      padding: 0.8rem 3rem;
+      border-radius: 14px;
+      font-size: 1.4rem;
+      color: white;
+      font-weight: 600;
+    }
+  }
+}
