@@ -21,7 +21,7 @@ const PokemonPage = (props) => {
 
   const handleDelete = (id) => {
     const confirmDelete = window.confirm(
-      "Do you really want to delete this item?"
+      "Do you really want to delete this Pokemon?"
     );
     if (confirmDelete) {
       props.removePokemon(id);

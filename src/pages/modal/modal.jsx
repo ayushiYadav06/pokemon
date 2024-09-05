@@ -105,7 +105,7 @@ const Modal = ({ isOpen, onClose, currentItem, id }) => {
         <button className="modal-close" onClick={onClose}>
           X
         </button>
-        <h2>{currentItem ? "Edit Item" : "Create Item"}</h2>
+        <h2>{currentItem ? "Edit Pokemon" : "Create Pokemon"}</h2>
         <div className="modal-form">
           <label>
             Title:
