@@ -1,35 +1,46 @@
 import React, { useState, useEffect } from "react";
 import "./modal.scss";
-import { useDispatch } from "react-redux";
-import { NewPokemon , UpdatedPokemon, fetchPokemonList } from "../../redux/action"; 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  NewPokemon,
+  UpdatedPokemon,
+  fetchPokemonList,
+  fetchPokemonObj,
+} from "../../redux/action";
 
-const Modal = ({ isOpen, onClose, currentItem }) => {
+const Modal = ({ isOpen, onClose, currentItem, id }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [breed, setBreed] = useState("");
-  const [image, setImage] = useState(null); 
-  const [imagePreview, setImagePreview] = useState(null); 
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const dispatch = useDispatch();
+  const pokemonObj = useSelector((state) => state.pokemon.pokemonObj);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchPokemonObj(id));
+    }
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (currentItem) {
       setTitle(currentItem.title);
       setDescription(currentItem.description);
       setBreed(currentItem.breed);
-      setImagePreview(currentItem.image); 
+      setImagePreview(currentItem.image);
     } else {
       setTitle("");
       setDescription("");
       setBreed("");
-      setImage(null); 
-      setImagePreview(null); // Reset preview
+      setImage(null);
+      setImagePreview(null);
     }
   }, [currentItem]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    // Convert the file to a Base64 string for preview
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result);
@@ -54,10 +65,11 @@ const Modal = ({ isOpen, onClose, currentItem }) => {
       image: imageBase64,
     };
 
-    dispatch(NewPokemon(obj)); 
-    onClose();
-    dispatch(fetchPokemonList()); // Optionally refetch data
+    dispatch(NewPokemon(obj));
 
+    dispatch(fetchPokemonList());
+    window.location.reload();
+    onClose();
   };
 
   const handleUpdate = async () => {
@@ -69,18 +81,20 @@ const Modal = ({ isOpen, onClose, currentItem }) => {
         reader.readAsDataURL(image);
       });
     }
-console.log(currentItem._id)
+
     const obj = {
-      id: currentItem.id,
       title,
       description,
       breed,
       image: imageBase64,
     };
-    dispatch(UpdatedPokemon(obj , currentItem._id)); 
+    console.log(obj);
+    if (currentItem && currentItem._id) {
+      dispatch(UpdatedPokemon(obj, currentItem._id));
+      dispatch(fetchPokemonList());
+    }
+    window.location.reload();
     onClose();
-    dispatch(fetchPokemonList()); 
-
   };
 
   if (!isOpen) return null;
@@ -118,15 +132,15 @@ console.log(currentItem._id)
           </label>
           <label>
             Image:
-            <input
-              type="file"
-              onChange={handleFileChange}
-            />
-            {imagePreview && (
+            <input type="file" onChange={handleFileChange} />
+            {/* {imagePreview && (
               <img src={imagePreview} alt="Preview" className="image-preview" />
-            )}
+            )} */}
           </label>
-          <button type="submit" onClick={currentItem ? handleUpdate : handleCreate}>
+          <button
+            type="submit"
+            onClick={currentItem ? handleUpdate : handleCreate}
+          >
             {currentItem ? "Update" : "Create"}
           </button>
         </div>

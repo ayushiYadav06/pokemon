@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./pokemon.scss";
 import Header from "../header/header";
-import Pikachu from "../../assets/Pikachu.webp";
 import Modal from "../modal/modal";
 import { fetchPokemonList, removePokemon } from "../../redux/action";
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
 
 const PokemonPage = (props) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
-  const navigate = useNavigate();
-  console.log(props.pokemon.pokemonlist.data);
-
   useEffect(() => {
     props.loadPokemon();
   }, []);
 
-  const handleEdit = (item) => {
+  const handleEdit = (item, id) => {
     setCurrentItem(item);
     setModalOpen(true);
   };
@@ -55,55 +49,44 @@ const PokemonPage = (props) => {
         isOpen={isModalOpen}
         onClose={closeModal}
         currentItem={currentItem}
-        // dispatch={dispatch}
       />
       <div className="pokemon-cardss">
         {props.pokemon.pokemonlist.data &&
-          props.pokemon.pokemonlist.data.map((item) => {
-            return (
-              <div className="pokemon-main-card">
-                <img className="pokemon-img" src={item.image} alt="Pikachu" />
-                <h1 className="pokemon-heading">{item.title}</h1>
-                <h3 className="pokemon-breed">{item.breed}</h3>
-                <p className="pokemon-para">{item.description}</p>
-                <div className="pokemon-btn">
-                  <button
-                    className="edit-btn btn-style"
-                    onClick={() => {
-                      handleEdit(item);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="delete-btn  btn-style"
-                    onClick={() => {
-                      handleDelete(item?._id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
+          props.pokemon.pokemonlist.data.map((item) => (
+            <div className="pokemon-main-card" key={item._id}>
+              <img className="pokemon-img" src={item.image} alt={item.title} />
+              <h1 className="pokemon-heading">{item.title}</h1>
+              <h3 className="pokemon-breed">{item.breed}</h3>
+              <p className="pokemon-para">{item.description}</p>
+              <div className="pokemon-btn">
+                <button
+                  className="edit-btn btn-style"
+                  onClick={() => handleEdit(item)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="delete-btn btn-style"
+                  onClick={() => handleDelete(item._id)}
+                >
+                  Delete
+                </button>
               </div>
-            );
-          })}
+            </div>
+          ))}
       </div>
       <ToastContainer />
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    pokemon: state.pokemon,
-  };
-};
+const mapStateToProps = (state) => ({
+  pokemon: state.pokemon,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadPokemon: () => dispatch(fetchPokemonList()),
-    removePokemon: (id) => dispatch(removePokemon(id)),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  loadPokemon: () => dispatch(fetchPokemonList()),
+  removePokemon: (id) => dispatch(removePokemon(id)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonPage);

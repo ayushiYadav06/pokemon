@@ -87,13 +87,26 @@ export const NewPokemon = (data) => {
 };
 
 export const UpdatedPokemon = (data, id) => {
-  console.log(id)
+  console.log(id , data)
   return (dispatch) => {
     dispatch(makeRequest());
     axios
       .put(`http://localhost:4500/pokemon/updatePokemon/${id}`, data)
       .then((response) => {
-        dispatch(UpdatedPokemon());
+        dispatch(updatePokemon());
+      })
+      .catch((err) => dispatch(failRequest(err.message)));
+  };
+};
+
+export const fetchPokemonObj = (id) => {
+  return (dispatch) => {
+    dispatch(makeRequest());
+    axios
+      .get(`http://localhost:4500/pokemon/getAllPokemon/${id}`)
+      .then((response) => {
+        const pokemonList = response.data;
+        dispatch(getPokemonObj(pokemonList));
       })
       .catch((err) => dispatch(failRequest(err.message)));
   };
